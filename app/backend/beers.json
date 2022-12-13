@@ -1,0 +1,37 @@
+[
+    {
+        "name": "Vörös csillag",
+        "tagline": "Frissítő",
+        "abv": 4.3
+    },
+    {
+        "name": "Május 1",
+        "tagline": "Régi ízek",
+        "abv": 4.1
+    },
+    {
+        "name": "Felszabadulás",
+        "tagline": "Vidék íze",
+        "abv": 4.7
+    },
+    {
+        "name": "Dózsa",
+        "tagline": "Csak keményeknek",
+        "abv": 5.3
+    },
+    {
+        "name": "Ozdi bányász",
+        "tagline": "Melósok kedvence",
+        "abv": 4.8
+    },
+    {
+        "name": "Élmunkás",
+        "tagline": "Brigádok kedvence",
+        "abv": "4.4"
+    },
+    {
+        "name": "Haladás",
+        "tagline": "Törtetők itala",
+        "abv": "3.8"
+    }
+]

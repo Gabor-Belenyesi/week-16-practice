@@ -6,35 +6,48 @@ import LoadingMask from './components/LoadingMask'
 function App() {
 
   const [beers, setBeers] = useState([])
-  const [perPage, setPerPage] = useState(10)
-  const [filter, setFilter] = useState("")
-  const [sortBy, setSortBy] = useState("asc")
+  const [name, setName] = useState("")
+  const [tagline, setTagline] = useState("")
+  const [abv, setAbv] = useState(0)
 
-  useEffect(() => {
-    fetch(`https://api.punkapi.com/v2/beers?per_page=${perPage}`)
+  const fetchBeers = () => {
+    fetch("/beers")
       .then(res => res.json())
-      .then(data => setTimeout(() => { setBeers(data) }, 2000))
-  }, [perPage])
+      .then(data => setBeers(data))
+  }
+
+  const addBeer = () => {
+    fetch("/beers/add", {
+      method: "POST",
+      body: JSON.stringify({
+        name: name,
+        tagline: tagline,
+        abv: abv,
+      }),
+      headers: { "Content-Type": "application/json" }
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log(data)
+        fetchBeers()
+      })
+  }
+
 
   useEffect(() => {
-    sortBy === "asc" ? setBeers(beers.sort((a,b) => a.name > b.name ? -1 : 1)) : setBeers(beers.sort((a,b) => a.name < b.name ? -1 : 1))
-  },[sortBy])
+    fetchBeers()
+  }, [])
 
-  console.log(beers)
 
   return (
     <div className="App">
-      <input type="number" value={perPage} onChange={(event) => setPerPage(event.target.value)} />
-
-      <p>Filter:</p>
-      <input type="text" placeholder='Filter' value={filter} onChange={(event) => setFilter(event.target.value)} />
-
-      <button onClick={() => {
-        sortBy === "asc" ? setSortBy("desc") : setSortBy("asc")
-      }}>Sort by {sortBy}</button>
-
-      {beers.length > 0 ? <Beers beers={beers} filter={filter} sortBy={sortBy} /> : <LoadingMask />}
-
+      {beers.length > 0 ? <>
+        <Beers beers={beers} />
+        <input type="text" placeholder="name" value={name} onChange={(event) => { setName(event.target.value) }} />
+        <input type="text" placeholder="tagline" value={tagline} onChange={(event) => { setTagline(event.target.value) }} />
+        <input type="text" placeholder="abv" value={abv} onChange={(event) => { setAbv(event.target.value) }} />
+        <button onClick={() => addBeer()}>Add</button>
+      </> : <LoadingMask />}
     </div>
   );
 }
